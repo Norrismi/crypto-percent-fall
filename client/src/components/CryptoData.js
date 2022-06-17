@@ -3,43 +3,71 @@ import { useState, useEffect } from 'react'
 const CryptoData = () => {
 
   const [topPrice, setTopPrice] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoadingHigh, setIsLoadingHigh] = useState(true);
 
-  // useEffect(() => {
+  const [currentPrice, setCurrentPrice] = useState([]);
+  const [isLoadingCurrent, setIsLoadingCurrent] = useState(true);
 
-  //   fetch('highPrice')
-  //     .then((res) => res.json())
-  //     .then((data) => setTopPrice(data))
-
-  //     setIsLoading(false)
-
-
-  // }, [])
 
   useEffect(() => {
+
     (async () => {
       const res = await fetch('/highPrice');
       const data = await res.json();
       setTopPrice(data)
-      setIsLoading(false)
+      setIsLoadingHigh(false)
     })()
   }, [])
 
 
+
+  useEffect(() => {
+
+    (async () => {
+      const res = await fetch('/currentPrice');
+      const data = await res.json();
+      setCurrentPrice(data)
+      setIsLoadingCurrent(false)
+    })()
+  }, [])
+
+
+
   console.log(topPrice)
+
+  console.log(currentPrice)
+
+
+
+
+
 
 
 
   return (
     <div>
-      hello from crypto
+      <h3>High Prices</h3>
 
-      {(isLoading) ? <h1>Loading</h1> :
+      {(isLoadingHigh) ? <h1>Loading</h1> :
         topPrice && topPrice.highPrice.map((item, i) => (
           <ul key={i}>
             {item}
           </ul>
         ))}
+
+      <h3>Current Prices</h3>
+      {(isLoadingCurrent) ? <h1>Loading</h1> :
+        topPrice && currentPrice.currentPrice.map((item, i) => (
+          <ul key={i}>
+            {item}
+          </ul>
+        ))}
+
+
+<h1>
+
+   BTC:{   topPrice.highPrice[0] }
+</h1>
 
     </div>
   )
