@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react'
+import { bigNums } from '../utils'
 
 const CryptoData = () => {
 
   const [topPrice, setTopPrice] = useState([]);
   const [isLoadingHigh, setIsLoadingHigh] = useState(true);
-
   const [currentPrice, setCurrentPrice] = useState([]);
   const [isLoadingCurrent, setIsLoadingCurrent] = useState(true);
 
@@ -32,22 +32,29 @@ const CryptoData = () => {
   }, [])
 
 
+  const highNums = [];
+  const lowNums = [];
+  const dividedBy = [];
 
-  console.log(topPrice)
+  (async () => {
 
-  console.log(currentPrice)
+    highNums.push(topPrice.highPrice.map((item, i) => (bigNums(item))))
+    
+
+    lowNums.push(currentPrice.currentPrice.map((item, i) => (bigNums(item))))
+
+    for (let i = 0; i <= currentPrice.currentPrice.length-1; i++) {
+      dividedBy.push((highNums[0][i] / lowNums[0][i]).toFixed(2))
+    }
 
 
-
-
-
+  })()
 
 
 
   return (
     <div>
       <h3>High Prices</h3>
-
       {(isLoadingHigh) ? <h1>Loading</h1> :
         topPrice && topPrice.highPrice.map((item, i) => (
           <ul key={i}>
@@ -63,11 +70,29 @@ const CryptoData = () => {
           </ul>
         ))}
 
+      <h3>Divided</h3>
+      {(isLoadingCurrent) ? <h1>Loading</h1> :
+        dividedBy && dividedBy.map((item, i) => (
+          <ul key={i}>
+            {item}
+          </ul>
+        ))}
 
-<h1>
 
-   BTC:{   topPrice.highPrice[0] }
-</h1>
+
+      {/* <h3>Displaying Numbers</h3>
+      {(isLoadingHigh) ? <h1>Loading</h1> :
+        topPrice &&
+
+        topPrice.highPrice.map((item, i) => (
+          <p key={i}>
+
+            {bigNums(item)}
+          </p>
+        )) */}
+
+      
+
 
     </div>
   )
