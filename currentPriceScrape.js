@@ -55,6 +55,8 @@ const fs = require('fs');
 
     highPrices.push(btcPrice, ethPrice, bnbPrice, adaPrice, xrpPrice, solPrice, avaxPrice, nearPrice)
 
+    console.log(highPrices)
+
     fs.writeFileSync('./scrapedData/currentPrices.json', JSON.stringify(highPrices, null, 2))
 
     await browser.close();
