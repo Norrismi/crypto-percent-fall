@@ -7995,7 +7995,7 @@
   optionalDependencies:
     "fsevents" "^2.3.2"
 
-"react@^18.0.0", "react@^18.2.0", "react@>= 16":
+"react@*", "react@^18.0.0", "react@^18.2.0", "react@>= 16":
   "integrity" "sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ=="
   "resolved" "https://registry.npmjs.org/react/-/react-18.2.0.tgz"
   "version" "18.2.0"
@@ -9287,6 +9287,11 @@
   "version" "4.2.2"
   dependencies:
     "punycode" "^2.1.0"
+
+"use-color-change@^1.0.2":
+  "integrity" "sha512-l6b4vvYsPuA5A2pzGAymNEEK/M3W+ENznG0F0BFtaDM17sobrhZTXA25hKHoyQOln+jDeiXprNZfM07C6d2hEg=="
+  "resolved" "https://registry.npmjs.org/use-color-change/-/use-color-change-1.0.2.tgz"
+  "version" "1.0.2"
 
 "util-deprecate@^1.0.1", "util-deprecate@^1.0.2", "util-deprecate@~1.0.1":
   "integrity" "sha1-RQ1Nyfpw3nMnYvvS1KKJgUGaDM8="

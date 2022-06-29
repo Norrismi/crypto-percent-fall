@@ -1,16 +1,21 @@
 import { useState, useEffect } from 'react'
 import { bigNums } from '../utils'
 
-const CryptoData = () => {
 
+const CryptoData = () => {
+  
   const [topPrice, setTopPrice] = useState([]);
   const [isLoadingHigh, setIsLoadingHigh] = useState(true);
   const [currentPrice, setCurrentPrice] = useState([]);
   const [isLoadingCurrent, setIsLoadingCurrent] = useState(true);
-
-
+  
+  const highNums = [];
+  const lowNums = [];
+  const dividedBy = [];
+  
+  
   useEffect(() => {
-
+    
     (async () => {
       const res = await fetch('/highPrice');
       const data = await res.json();
@@ -19,47 +24,56 @@ const CryptoData = () => {
     })()
   }, [])
 
-
+  
 
   useEffect(() => {
+    
+    const getCurrentPrice = async () => {
+      try {
+        const res = await fetch('/currentPrice');
+        const data = await res.json();
+        setCurrentPrice(data)
+        setIsLoadingCurrent(false)
+      }
+      catch (err) {
+        console.log(err)
+      }
+    }
+    
+    getCurrentPrice();
+    
+    const interval = setInterval(() => {
+      getCurrentPrice()
+    }, 60000)
+    return () => clearInterval(interval)
 
-    (async () => {
-      const res = await fetch('/currentPrice');
-      const data = await res.json();
-      setCurrentPrice(data)
-      setIsLoadingCurrent(false)
-    })()
+    
   }, [])
-
-
-  const highNums = [];
-  const lowNums = [];
-  const dividedBy = [];
+  
+  
   const coins = ['BTC', 'ETH', 'BNB', 'ADA', 'XRP', 'SOL', 'AVAX', 'NEAR'];
-
+  
+  
   (async () => {
-
+    
     highNums.push(topPrice.highPrice.map((item, i) => (bigNums(item))))
-
-
     lowNums.push(currentPrice.currentPrice.map((item, i) => (bigNums(item))))
 
     for (let i = 0; i <= currentPrice.currentPrice.length - 1; i++) {
       dividedBy.push((highNums[0][i] / lowNums[0][i]).toFixed(2))
     }
 
-
+    
   })()
 
-
-
+  
   return (
     
     <div className='flex justify-evenly  bg-slate-700 text-white h-screen'>
 
       <div>
         <h3 className='text-xl mb-10 mt-10 font-extralight'>High Prices</h3>
-        {coins.map((item,i)=>(
+        {coins.map((item, i) => (
           <ul className='mb-3 font-light flex justify-center' key={i}>
             {item}
           </ul>
@@ -94,6 +108,10 @@ const CryptoData = () => {
               {item}
             </ul>
           ))}
+      </div>
+
+      <div>
+        updates every 2 minutes
       </div>
 
     </div>
